@@ -4,5 +4,5 @@
 
 
 ## :computer: Portfolio and Resume
-* [Linkdin](https://www.linkedin.com/in/marjandavodinejad?originalSubdomain=ir)
+* [LinkedIn](https://www.linkedin.com/in/marjandavodinejad?originalSubdomain=ir)
 * [Website](https://progrun.ir)
