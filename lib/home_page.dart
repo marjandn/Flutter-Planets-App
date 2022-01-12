@@ -10,8 +10,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
- final CarouselController _carouselController = new CarouselController();
+  final CarouselController _carouselController = new CarouselController();
   int _current = 0;
+
+  String _selectedPlanetName = "";
+  String _selectedPlanetImage = "";
+  String _selectedPlanetDesc = "";
+
+  bool selected = false;
+
+  bool _sliderAutoPlay = true;
 
   final List<dynamic> _planets = [
     {
@@ -23,38 +31,45 @@ class _HomePageState extends State<HomePage> {
     {
       'title': 'Sun',
       'image': 'sun.png',
-      'description': 'The Sun is the star at the center of the Solar System. It is a nearly perfect ball of hot plasma,[18][19] heated to incandescence by nuclear fusion reactions in its core, radiating the energy mainly as visible light, ultraviolet light'
+      'description':
+          'The Sun is the star at the center of the Solar System. It is a nearly perfect ball of hot plasma,[18][19] heated to incandescence by nuclear fusion reactions in its core, radiating the energy mainly as visible light, ultraviolet light'
     },
     {
       'title': 'Pluto',
       'image': 'plutu.png',
-      'description': 'Pluto (minor-planet designation: 134340 Pluto) is a dwarf planet in the Kuiper belt, a ring of bodies beyond the orbit of Neptune. It was the first and the largest Kuiper belt object to be discovered. After Pluto was discovered in 1930, it was declared to be the ninth planet from the Sun'
+      'description':
+          'Pluto (minor-planet designation: 134340 Pluto) is a dwarf planet in the Kuiper belt, a ring of bodies beyond the orbit of Neptune. It was the first and the largest Kuiper belt object to be discovered. After Pluto was discovered in 1930, it was declared to be the ninth planet from the Sun'
     },
     {
       'title': 'Mars',
       'image': 'mars.png',
-      'description': 'Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System, being larger than only Mercury. In English, Mars carries the name of the Roman god of war and is often referred to as the "Red Planet".'
+      'description':
+          'Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System, being larger than only Mercury. In English, Mars carries the name of the Roman god of war and is often referred to as the "Red Planet".'
     },
     {
       'title': 'Jupiter',
       'image': 'jupiter.png',
-      'description': 'Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass more than two and a half times that of all the other planets in the Solar System combined, but slightly less than one-thousandth the mass of the Sun'
+      'description':
+          'Jupiter is the fifth planet from the Sun and the largest in the Solar System. It is a gas giant with a mass more than two and a half times that of all the other planets in the Solar System combined, but slightly less than one-thousandth the mass of the Sun'
     },
     {
       'title': 'Mercury',
       'image': 'mercury.png',
-      'description': 'Mercury is the smallest planet in the Solar System and the closest to the Sun. Its orbit around the Sun takes 87.97 Earth days, the shortest of all the Suns planets. It is named after the Roman god Mercurius (Mercury), god of commerce, messenger of the gods, and mediator between gods and mortals,'
+      'description':
+          'Mercury is the smallest planet in the Solar System and the closest to the Sun. Its orbit around the Sun takes 87.97 Earth days, the shortest of all the Suns planets. It is named after the Roman god Mercurius (Mercury), god of commerce, messenger of the gods, and mediator between gods and mortals,'
     },
     {
       'title': 'Neptune',
       'image': 'nepton.png',
-      'description': 'Neptune is the eighth and farthest-known Solar planet from the Sun. In the Solar System, it is the fourth-largest planet by diameter, the third-most-massive planet, and the densest giant planet. It is 17 times the mass of Earth, slightly more massive than its near-twin Uranus.'
+      'description':
+          'Neptune is the eighth and farthest-known Solar planet from the Sun. In the Solar System, it is the fourth-largest planet by diameter, the third-most-massive planet, and the densest giant planet. It is 17 times the mass of Earth, slightly more massive than its near-twin Uranus.'
     },
     {
       'title': 'Venus',
       'image': 'venus.png',
-      'description': 'Venus is the second planet from the Sun. It is named after the Roman goddess of love and beauty. As the brightest natural object in Earths night sky after the Moon'
-    }, 
+      'description':
+          'Venus is the second planet from the Sun. It is named after the Roman goddess of love and beauty. As the brightest natural object in Earths night sky after the Moon'
+    },
   ];
 
   @override
@@ -62,8 +77,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  double _maxWidth = 0;
+  double _maxHeight = 0;
+
   @override
   Widget build(BuildContext context) {
+    _maxWidth = MediaQuery.of(context).size.width;
+    _maxHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
@@ -78,12 +99,15 @@ class _HomePageState extends State<HomePage> {
                   begin: FractionalOffset(0.0, 0.0),
                   end: FractionalOffset(1.0, 0.0),
                   stops: [0.0, 1.0],
-                  tileMode: TileMode.clamp), 
+                  tileMode: TileMode.clamp),
             ),
             child: Stack(children: [
               Align(
                 alignment: Alignment.bottomLeft,
-                child: Lottie.asset('assets/anim/planet.json',width: 200,),
+                child: Lottie.asset(
+                  'assets/anim/planet.json',
+                  width: 200,
+                ),
               ),
               const Align(
                   alignment: Alignment.topCenter,
@@ -107,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                       enableInfiniteScroll: true,
                       viewportFraction: 0.5,
                       initialPage: 0,
-                      autoPlay: true,
+                      autoPlay: _sliderAutoPlay,
                       onPageChanged: (index, reason) {
                         setState(() {
                           _current = index;
@@ -160,14 +184,15 @@ class _HomePageState extends State<HomePage> {
                                       Expanded(
                                         child: Text(
                                           planet['description'],
-                                          maxLines:
-                                              _current == _planets.indexOf(planet)
-                                                  ? 3
-                                                  : 1,
+                                          maxLines: _current ==
+                                                  _planets.indexOf(planet)
+                                              ? 3
+                                              : 1,
                                           textAlign: TextAlign.left,
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
-                                              color: Colors.grey, fontSize: 18),
+                                              color: Colors.grey,
+                                              fontSize: 18),
                                         ),
                                       ),
                                     ],
@@ -207,19 +232,112 @@ class _HomePageState extends State<HomePage> {
                               opacity: _current == _planets.indexOf(planet)
                                   ? 1.0
                                   : 0.0,
-                              child: CircleAvatar(
-                                backgroundColor: Colors.white,
-                                radius: 35,
-                                child: Image.asset(
-                                  "assets/images/right_arrow.png",
-                                  fit: BoxFit.fill,
-                                  width: 60,
-                                  height: 60,
+                              child: InkWell(
+                                onTap: (){
+                                    _sliderAutoPlay = false;
+                                  selected = true;
+
+                                  _selectedPlanetName = planet['title'];
+                                  _selectedPlanetImage = planet['image'];
+                                  _selectedPlanetDesc = planet['description'];
+                                  setState(() {});
+                                },
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 35,
+                                  child: Image.asset(
+                                    "assets/images/right_arrow.png",
+                                    fit: BoxFit.fill,
+                                    width: 60,
+                                    height: 60,
+                                  ),
                                 ),
                               ),
                             ))
                       ]);
                     }).toList(),
+                  ),
+                ),
+              ),
+              AnimatedPositioned(
+                width: selected ? _maxWidth : 0,
+                height: selected ? _maxHeight : 0,
+                right: 0,
+                duration: const Duration(seconds: 2),
+                curve: Curves.fastOutSlowIn,
+                child: Container(
+                  margin: const EdgeInsets.all(32),
+                  padding: const EdgeInsets.all(16),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(30))),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: IconButton(
+                              onPressed: () {
+                                selected = false;
+                                _sliderAutoPlay = true;
+                                setState(() {});
+                              },
+                              icon: const Icon(
+                                Icons.cancel,
+                                color: Colors.grey,
+                              )),
+                        ),
+                        Container(
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x86575757),
+                                  blurRadius: 40.0,
+                                  spreadRadius: 0.2,
+                                  offset: Offset(0, 3),
+                                )
+                              ],
+                            ),
+                            child: Image.asset(
+                              "assets/images/$_selectedPlanetImage",
+                              width: 150,
+                              height: 150,
+                              fit: BoxFit.fill,
+                            )),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                _selectedPlanetName,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                _selectedPlanetDesc,
+                                textAlign: TextAlign.left,
+                                style: const TextStyle(
+                                    color: Colors.grey, fontSize: 18),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )
