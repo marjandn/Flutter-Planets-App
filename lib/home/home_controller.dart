@@ -6,7 +6,7 @@ class HomeController extends GetxController {
   var detailsExpanded = false.obs;
 
   String selectedPlanetName = "";
-  String selectedPlanetImage = "";
+  String selectedPlanetImage = "earth.png";
   String selectedPlanetDesc = "";
 
   final List<dynamic> planets = [

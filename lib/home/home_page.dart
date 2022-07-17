@@ -169,6 +169,7 @@ class HomePage extends StatelessWidget {
 
                                       _controller.openDetailes(planet);
                                     },
+                                    key: Key(planet['title']),
                                     child: CircleAvatar(
                                       backgroundColor: Colors.white,
                                       radius: 35,
@@ -187,6 +188,7 @@ class HomePage extends StatelessWidget {
                     ),
                   )),
               Obx(()=> AnimatedPositioned(
+                key: const Key('detailesPopup'),
                 width: _controller.detailsExpanded.value ? Get.width : 0,
                 height: _controller.detailsExpanded.value ? Get.height : 0,
                 right: 0,
@@ -238,6 +240,7 @@ class HomePage extends StatelessWidget {
                               child: Text(
                                 _controller.selectedPlanetName,
                                 textAlign: TextAlign.left,
+                                key: const Key('detailPopupTitle'),
                                 style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 24,
